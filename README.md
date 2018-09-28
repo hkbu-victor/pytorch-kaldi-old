@@ -1,6 +1,8 @@
 # pytorch-kaldi
 pytorch-kaldi is a public repository for developing state-of-the-art DNN/RNN hybrid speech recognition systems. The DNN part is managed by pytorch, while feature extraction, label computation, and decoding are performed with the kaldi toolkit.
 
+*A NEW VERSION OF PYTORCH-KALDI IS COMING SOON. STAY TUNED!*
+
 
 ## Introduction:
 This project releases a collection of codes and utilities to develop state-of-the-art DNN/RNN hybrid speech recognition systems. The DNN/RNN part is implemented in pytorch, while feature extraction, alignments, and decoding are performed with the Kaldi toolkit.  The current version of the provided system has the following features:
