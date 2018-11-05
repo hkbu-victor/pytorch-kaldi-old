@@ -155,6 +155,9 @@ class MLP(nn.Module):
          
         if self.cost=="mse":
          self.criterion = torch.nn.MSELoss()
+
+        if self.cost=='bce':
+            self.criterion = torch.nn.BCEWithLogitsLoss()
                
     
     def forward(self, x,lab,test_flag):
@@ -207,7 +210,13 @@ class MLP(nn.Module):
         loss=self.criterion(out, lab)
         pout=out
         err=Variable(torch.FloatTensor([0]))
-        
+
+      if self.cost=="bce":
+        loss=self.criterion(out, lab.float())
+        pout=F.sigmoid(out)
+        pred = pout.data > 0.5
+        err = torch.mean((pred.long() != lab).float(), dim=0)
+
       return [loss,err,pout]
   
     
