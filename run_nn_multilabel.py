@@ -256,7 +256,7 @@ with open(info_file, "w") as inf:
     inf.write("fea_in=%s\n" % (fea_scp))
     inf.write("loss=%f\n" % (loss_tot))
     # inf.write("err=%f\n" %(err_tot))
-    inf.write("err=%s\n" % (' '.join([str(x.numpy()) for x in err_tot])))
+    inf.write("err=%s\n" % (' '.join([str((x.cpu()).numpy()) for x in err_tot])))
     inf.write("elapsed_time=%f\n" % (end_time - start_time))
 
 inf.close()
