@@ -65,8 +65,14 @@ cfg_file=$1
 cmd=""
 
 # Parsing cfg file
-#source <(grep = $cfg_file)
-source $cfg_file
+if [[ $(uname -s) == Darwin ]]
+then
+    source $cfg_file
+else
+    source <(grep = $cfg_file)
+fi
+
+# source $cfg_file
 IFS=, read -a tr_fea_scp_list <<< $tr_fea_scp
 IFS=, read -a dev_fea_scp_list <<< $dev_fea_scp
 IFS=, read -a te_fea_scp_list <<< $te_fea_scp
@@ -77,9 +83,13 @@ mkdir -p $out_folder
 # Initialization
 pt_file='none'
 
-tr_fea_scp_list=($tr_fea_scp_list) # to an array
-dev_fea_scp_list=($dev_fea_scp_list)
-te_fea_scp_list=($te_fea_scp_list)
+if [[ $(uname -s) == Darwin ]]
+then
+    tr_fea_scp_list=($tr_fea_scp_list) # to an array
+    dev_fea_scp_list=($dev_fea_scp_list)
+    te_fea_scp_list=($te_fea_scp_list)
+fi
+
 # Number of training chunks
 N_ck=${#tr_fea_scp_list[@]}; echo "chunks are $N_ck"
 
