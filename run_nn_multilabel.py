@@ -25,7 +25,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 
 import kaldi_io
-from data_io import load_chunk, load_counts, read_conf
+from data_io import load_chunk, read_conf
 
 # Reading options in cfg file
 options = read_conf()
@@ -154,7 +154,7 @@ if do_eval:
 
     if do_forward:
         post_file = kaldi_io.open_or_fd(out_file, 'wb')
-        counts = load_counts(count_file)
+        # counts = load_counts(count_file)
 
 beg_batch = 0
 end_batch = batch_size
