@@ -2,6 +2,7 @@ import kaldi_io
 import numpy as np
 from optparse import OptionParser
 from six.moves.configparser import ConfigParser
+from tqdm import tqdm
 
 
 def load_dataset(fea_scp,fea_opts,lab_folder,lab_opts,left,right):
@@ -14,7 +15,7 @@ def load_dataset(fea_scp,fea_opts,lab_folder,lab_opts,left,right):
  end_snt=0
  end_index=[]
  snt_name=[]
- for k in sorted(fea.keys(), key=lambda k: len(fea[k])):
+ for k in tqdm(sorted(fea.keys(), key=lambda k: len(fea[k]))):
      if count==0:
          count=1
          fea_conc=fea[k]
