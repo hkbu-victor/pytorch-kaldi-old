@@ -26,6 +26,7 @@ from torch.autograd import Variable
 
 import kaldi_io
 from data_io import load_chunk, read_conf
+from util import timedec
 
 # Reading options in cfg file
 options = read_conf()
@@ -104,7 +105,20 @@ data_lab = data_set[:, N_fea]
 with open('phonology/phone2pf.pickle', 'rb') as handle:
     arpa_to_pf_dict = pickle.load(handle)
 
-data_pf = np.array([arpa_to_pf_dict[x + 1] for x in data_lab])  # compensate -1 in load_chunk()
+
+# data_pf = np.array([arpa_to_pf_dict[x + 1] for x in data_lab])
+# NB compensate -1 in load_chunk()
+@timedec
+def phone2pfvec(data_lab):
+    # 10X faster phone => pf vector conversion
+    # see label_extension.ipynb for more details.
+    data_pf = np.empty((data_lab.shape[0], N_out), dtype=float)
+    for k, v in arpa_to_pf_dict.items():
+        data_pf[(data_lab + 1) == k] = v
+    return data_pf
+
+
+data_pf = phone2pfvec(data_lab)
 data_set = np.column_stack((data_fea, data_pf))
 
 print('****** data_pf shape {}'.format(data_pf.shape))
