@@ -1,8 +1,10 @@
-import kaldi_io
-import numpy as np
 from optparse import OptionParser
+
+import numpy as np
 from six.moves.configparser import ConfigParser
 from tqdm import tqdm
+
+import kaldi_io
 
 
 def load_dataset(fea_scp,fea_opts,lab_folder,lab_opts,left,right):
@@ -15,21 +17,25 @@ def load_dataset(fea_scp,fea_opts,lab_folder,lab_opts,left,right):
  end_snt=0
  end_index=[]
  snt_name=[]
- for k in tqdm(sorted(fea.keys(), key=lambda k: len(fea[k]))):
+ k_lst = sorted(fea.keys(), key=lambda k: len(fea[k]))
+ for k in k_lst:
      if count==0:
          count=1
-         fea_conc=fea[k]
-         lab_conc=lab[k]
+         # fea_conc=fea[k]
+         # lab_conc=lab[k]
          end_snt=end_snt+fea[k].shape[0]-left
      else:
-         fea_conc=np.concatenate([fea_conc,fea[k]],axis=0)
-         lab_conc=np.concatenate([lab_conc,lab[k]],axis=0)
+         # fea_conc=np.concatenate([fea_conc,fea[k]],axis=0)
+         # lab_conc=np.concatenate([lab_conc,lab[k]],axis=0)
          end_snt=end_snt+fea[k].shape[0]
- 
+
         
      end_index.append(end_snt) 
      snt_name.append(k)
-     
+
+ # 1,000 times fast using python list
+ fea_conc = np.concatenate([fea[k] for k in tqdm(k_lst)], axis=0)
+ lab_conc = np.concatenate([lab[k] for k in k_lst], axis=0)
  end_index[-1]=end_index[-1]-right
     
  return [snt_name,fea_conc,lab_conc,end_index] 
