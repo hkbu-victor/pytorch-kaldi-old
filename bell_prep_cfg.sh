@@ -95,7 +95,7 @@ N_ck=${#te_fea_scp_list[@]}; echo "chunks are $N_ck"
 
 sleep_time=3
 
-for chunk in $(seq -w 0 "$(($N_ck-1))"); do
+for chunk in $(seq  0 "$(($N_ck-1))"); do
 
     fea_chunk=${te_fea_scp_list[$chunk]}
     fea_opts=$te_fea_opts
