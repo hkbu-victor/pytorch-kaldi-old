@@ -67,7 +67,7 @@ def load_chunk(fea_scp,fea_opts,lab_folder,lab_opts,left,right,shuffle_seed):
   data_set=(data_set-np.mean(data_set,axis=0))/np.std(data_set,axis=0)
 
   # Label processing
-  data_lab=data_lab-data_lab.min()
+  # data_lab=data_lab-data_lab.min()  12/6/18 no need for PF model
   if right>0:
    data_lab=data_lab[left:-right]
   else:
