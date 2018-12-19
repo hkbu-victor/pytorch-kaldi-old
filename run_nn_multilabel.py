@@ -211,11 +211,12 @@ for i in range(N_batches):
         lab = Variable(data_set[beg_snt:end_snt, -1 * N_out:], volatile=True).contiguous().long()
         if rnn == 1:
             inp = inp.view(inp.shape[0], 1, inp.shape[1])
-            lab = lab.view(lab.shape[0], 1)
+            #lab = lab.view(lab.shape[0], 1)
+            lab = lab.view(lab.shape[0], 1, lab.shape[1])
         beg_snt = data_end_index[i]
 
     [loss, err, pout] = net(inp, lab, test_flag)
-    print('epoch: {}\tloss: {}\terr: {}'.format(i, loss, err))
+    print('batch: {}\tloss: {}\terr: {}'.format(i, loss, err))
 
     if multi_gpu:
         loss = loss.mean()

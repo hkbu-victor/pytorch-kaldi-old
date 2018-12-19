@@ -965,6 +965,9 @@ class LSTM(nn.Module):
         loss=self.criterion(out, lab.float())
         pout=F.sigmoid(out)
         pred = pout.data > 0.5
+        # flattening time stamp dim
+        pred = pred.view(pred.shape[0]*pred.shape[1], -1)
+        lab = lab.view(lab.shape[0]*lab.shape[1], -1)
         err = torch.mean((pred.long() != lab).float(), dim=0)
 
       if self.twin_reg:
