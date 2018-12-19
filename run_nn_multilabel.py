@@ -184,7 +184,7 @@ for i in range(N_batches):
             max_len = data_end_index[snt_index + batch_size - 1] - data_end_index[snt_index + batch_size - 2]
 
             inp = Variable(torch.zeros(max_len, batch_size, N_fea)).contiguous()
-            lab = Variable(torch.zeros(max_len, batch_size)).contiguous().long()
+            lab = Variable(torch.zeros(max_len, batch_size, N_out)).contiguous().long()
 
             for k in range(batch_size):
                 snt_len = data_end_index[snt_index] - beg_snt
@@ -193,7 +193,7 @@ for i in range(N_batches):
                 N_zeros_left = random.randint(0, N_zeros)
                 # randomizing could have a regularization effect
                 inp[N_zeros_left:N_zeros_left + snt_len, k, :] = data_set[beg_snt:beg_snt + snt_len, 0:N_fea]
-                lab[N_zeros_left:N_zeros_left + snt_len, k] = data_set[beg_snt:beg_snt + snt_len, -1]
+                lab[N_zeros_left:N_zeros_left + snt_len, k, :] = data_set[beg_snt:beg_snt + snt_len, -1 * N_out:]
 
                 beg_snt = data_end_index[snt_index]
                 snt_index = snt_index + 1
@@ -215,6 +215,7 @@ for i in range(N_batches):
         beg_snt = data_end_index[i]
 
     [loss, err, pout] = net(inp, lab, test_flag)
+    print('epoch: {}\tloss: {}\terr: {}'.format(i, loss, err))
 
     if multi_gpu:
         loss = loss.mean()
