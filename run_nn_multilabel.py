@@ -102,23 +102,20 @@ options.num_classes = N_out
 # convert data_set[,-1] to dim=22
 data_fea = data_set[:, 0:N_fea]
 data_lab = data_set[:, N_fea]
-with open('phonology/phone2pf.pickle', 'rb') as handle:
-    arpa_to_pf_dict = pickle.load(handle)
+with open('phonology/pdf2pf.pickle', 'rb') as handle:
+    pdf_to_pf_dict = pickle.load(handle)
+data_pf = np.array([pdf_to_pf_dict[str(int(x))] for x in data_lab])
 
-
-# data_pf = np.array([arpa_to_pf_dict[x + 1] for x in data_lab])
-# NB compensate -1 in load_chunk()
-@timedec
-def phone2pfvec(data_lab):
-    # 10X faster phone => pf vector conversion
-    # see label_extension.ipynb for more details.
-    data_pf = np.empty((data_lab.shape[0], N_out), dtype=float)
-    for k, v in arpa_to_pf_dict.items():
-        data_pf[(data_lab + 1) == k] = v
-    return data_pf
-
-
-data_pf = phone2pfvec(data_lab)
+# no need to speed up here; just use simple one-line logic
+# @timedec
+# def phone2pfvec(data_lab):
+#     # 10X faster phone => pf vector conversion
+#     # see label_extension.ipynb for more details.
+#     data_pf = np.empty((data_lab.shape[0], N_out), dtype=float)
+#     for k, v in pdf_to_pf_dict.items():
+#         data_pf[(data_lab + 1) == k] = v
+#     return data_pf
+# # data_pf = phone2pfvec(data_lab)
 data_set = np.column_stack((data_fea, data_pf))
 
 print('****** data_pf shape {}'.format(data_pf.shape))

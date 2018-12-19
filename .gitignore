@@ -105,3 +105,4 @@ venv.bak/
 exp/
 mfcc_ord/
 mfcc_shu/
+phonology/pdf2pf.pickle
