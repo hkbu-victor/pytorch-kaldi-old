@@ -48,9 +48,9 @@ if __name__ == '__main__':
     pft = panphon.FeatureTable()
 
     # load TIMIT phone file, note that TIMIT used several ARPANET phones beyond CMU
-    phones = pd.read_csv('phones.txt', sep=' ', header=None)
-    #ps = phones.drop([0,1,49,50]) # remove <eps> sil, #0, #1
-    phones.columns = ['arpabet', 'idx']
+    # phones = pd.read_csv('phones.txt', sep=' ', header=None)
+    # ps = phones.drop([0,1,49,50]) # remove <eps> sil, #0, #1
+    # phones.columns = ['arpabet', 'idx']
 
     arpa_to_ipa_dict = load_cmu()
 
